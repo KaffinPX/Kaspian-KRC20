@@ -33,7 +33,7 @@ jobs:
       - name: Use bun
         uses: oven-sh/setup-bun@v1
         with:
-          bun-version: 1.0.31
+          bun-version: 1.1.22
       - name: Install WASM binaries from aspectron.org
         run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-omega-2024-08-18.zip
       - name: Extract WASM binaries
