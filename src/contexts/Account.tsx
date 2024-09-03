@@ -1,5 +1,5 @@
 import useIndexer from "@/hooks/useIndexer"
-import type { Balance } from "KasplexBuilder/src/indexer/protocol"
+import type { Balance } from "kasplexbuilder/src/indexer/protocol"
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react"
 
 type Balances = {[ ticker: string ]: Balance}

@@ -4,8 +4,8 @@ import { CoinsIcon } from "lucide-react"
 import useAccount from "@/hooks/useAccount"
 import { useEffect, useState } from "react"
 import { Address, ScriptBuilder, XOnlyPublicKey, addressFromScriptPublicKey } from '@/../wasm'
-import { Inscription } from 'KasplexBuilder'
-import { useKaspian } from 'KProvider'
+import { Inscription } from 'kasplexbuilder'
+import { useKaspian } from 'kprovider'
 import { Label } from "@/components/ui/label"
 import useIndexer from "@/hooks/useIndexer"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"

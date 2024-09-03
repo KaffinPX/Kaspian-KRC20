@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { KaspianProvider } from 'KProvider'
+import { KaspianProvider } from 'kprovider'
 import "./style.css"
 import { AccountProvider } from './contexts/Account'
 import { ThemeProvider } from './contexts/Theme'

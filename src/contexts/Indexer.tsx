@@ -1,6 +1,6 @@
-import { Indexer } from "KasplexBuilder"
+import { Indexer } from "kasplexbuilder"
 import { createContext, ReactNode, useCallback, useEffect, useRef, useState } from "react"
-import type { Token } from "KasplexBuilder/src/indexer/protocol"
+import type { Token } from "kasplexbuilder/src/indexer/protocol"
 
 type Tokens = {[ ticker: string ]: Token}
 export const IndexerContext = createContext<{

@@ -1,4 +1,4 @@
-import { useKaspian } from 'KProvider'
+import { useKaspian } from 'kprovider'
 import { Button } from '@/components/ui/button'
 import {
   Card,

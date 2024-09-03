@@ -1,4 +1,4 @@
-import { useKaspian } from 'KProvider'
+import { useKaspian } from 'kprovider'
 import Connect from './pages/Connection'
 import Account from './pages/Account'
 import {
