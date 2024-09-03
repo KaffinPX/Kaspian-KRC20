@@ -41,8 +41,7 @@ jobs:
           7z x wasm.zip
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
-            - name: Extract WASM binaries
-      - name: Check directory for debugging :/
+      - name: Check directory for debugging
         run: |
           ls
           cd ./wasm
