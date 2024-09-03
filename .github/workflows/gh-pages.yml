@@ -41,13 +41,12 @@ jobs:
           7z x wasm.zip
           mkdir ./wasm
           mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
-      - name: Check directory for debugging
-        run: |
-          ls
-          cd ./wasm
-          ls
       - name: Install Dependencies
         run: bun install
+      - name: Check directory for debugging
+        run: |
+          cd ./node_modules
+          ls
       - name: Build
         run: bun run build
       - name: Setup Pages
