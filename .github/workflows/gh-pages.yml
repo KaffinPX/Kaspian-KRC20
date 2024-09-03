@@ -44,7 +44,7 @@ jobs:
       - name: Install Dependencies
         run: bun install --production
       - name: Build
-        run: npm run build
+        run: bun run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
