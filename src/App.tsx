@@ -1,4 +1,7 @@
-import { useKaspian } from 'kprovider'
+import { useEffect } from 'react'
+import { CopyIcon, Moon, Sun } from 'lucide-react'
+import { useKaspian } from 'kaspianprovider'
+import { toast } from 'sonner'
 import Connect from './pages/Connection'
 import Account from './pages/Account'
 import {
@@ -8,13 +11,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useEffect } from 'react'
-import useAccount from './hooks/useAccount'
 import { Button } from './components/ui/button'
-import { CopyIcon, Moon, Sun } from 'lucide-react'
 import { useTheme } from './hooks/useTheme'
 import useIndexer from './hooks/useIndexer'
-import { toast } from 'sonner'
+import useAccount from './hooks/useAccount'
 
 function App() {
   const { account } = useKaspian()

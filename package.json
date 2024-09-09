@@ -18,7 +18,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "kasplexbuilder": "github:KaffinPX/KasplexBuilder",
-    "kprovider": "github:KaffinPX/KProvider",
+    "kaspianprovider": "github:KaffinPX/KaspianProvider",
     "lucide-react": "^0.436.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
