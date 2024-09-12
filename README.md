@@ -10,8 +10,8 @@ Install the required Bun modules using the command ``bun install`` and get WASM 
 
 ### Testing
 
-To begin testing, execute ``bun run dev`` to run the development server. Then, utilize the contents of the dist folder as an unpacked extension in your browser for testing purposes.
+To begin testing, execute ``bun run dev`` to run the development server. Then, route to development server via any browser for testing purposes.
 
 ### Building
 
-To build it as an unpacked extension, execute ``bun run build``. It will be built into dist folder.
+To build it, execute ``bun run build``. It will be built into dist folder.
