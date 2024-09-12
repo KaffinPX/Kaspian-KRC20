@@ -16,7 +16,7 @@ export function AccountProvider ({ children }: {
 }) {
   const { indexer, tokens } = useIndexer()
   const [ address, setAddress ] = useState<string>()
-  const [ balances, setBalances ] = useState<Balances>({}) // TBD: use useOptimistic for balances
+  const [ balances, setBalances ] = useState<Balances>({})
 
   const refresh = useCallback(async () => {
     if (!address || indexer.current.url === '') return console.log('rtrned', address, indexer.current.url)

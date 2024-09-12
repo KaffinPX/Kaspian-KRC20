@@ -1,5 +1,7 @@
 # Kaspian-KRC20
 
+Kaspian-KRC20 is a React app that integrates the KaspianProvider and KasplexBuilder to enable KRC-20 token functionality through the Kaspian wallet. Supports transacting and mintage of tokens with multi addresses support.
+
 ## Development
 
 Ensure you have Bun. If not, please install the latest version of Bun to proceed with the development process.
