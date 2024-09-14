@@ -39,10 +39,10 @@ export function IndexerProvider ({ children }: {
   }, [])
   
   useEffect(() => {
-    if (networkId === 'testnet-10') {
+    if (networkId === 'mainnet') {
+      indexer.current.url = 'https://api.kasplex.org'
+    } else if (networkId === 'testnet-10') {
       indexer.current.url = 'https://tn10api.kasplex.org'
-    } else {
-      indexer.current.url = ''
     }
 
     refresh()

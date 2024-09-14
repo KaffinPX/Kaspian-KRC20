@@ -24,7 +24,9 @@ function Transfer ({ ticker }: {
   const [ commit, setCommit ] = useState<string>()
 
   useEffect(() => {
-    if (!address || recipient === '' || amount === '') return setCommitAddress(undefined)
+    if (commitAddress) setCommitAddress(undefined)
+
+    if (!address || recipient === '' || amount === '') return
     if (!Address.validate(recipient)) return
 
     const script = new ScriptBuilder()
@@ -74,33 +76,40 @@ function Transfer ({ ticker }: {
         <DialogFooter>
           <Button className={"gap-2"} disabled={!commitAddress} onClick={async () => {
             if (!commit) {
-              const commitment = JSON.parse(await invoke('transact', [[[ commitAddress!, '0.2' ]]]))
-              setCommit(commitment.id)
+              invoke('transact', [[[ commitAddress!, '0.2' ]]]).then(commitment => {
+                const transaction = JSON.parse(commitment)
+                setCommit(transaction.id)
 
-              toast.success('Committed token transfer request succesfully!', {
-                action: {
-                  label: 'Copy',
-                  onClick: () => navigator.clipboard.writeText(commitment.id)
-                }
+                toast.success('Committed token transfer request succesfully!', {
+                  action: {
+                    label: 'Copy',
+                    onClick: () => navigator.clipboard.writeText(transaction.id)
+                  }
+                })
+              }).catch((message) => {
+                toast.error(`Oops! Something went wrong with your wallet: ${message}`)
               })
             } else {
-              const reveal = JSON.parse(await invoke('transact', [[], "0.01", [{
+              invoke('transact', [[], "0.01", [{
                 address: commitAddress!,
                 outpoint: commit,
                 index: 0,
                 signer: address!,
                 script: script
-              }]]))
+              }]]).then((reveal) => {
+                const transaction = JSON.parse(reveal)
+                setRecipient('')
+                setAmount('')
+                setCommit(undefined)
 
-              setRecipient('')
-              setAmount('')
-              setCommit(undefined)
-
-              toast.success('Revealed and completed token transfer request succesfully!', { 
-                action: {
-                  label: 'Copy',
-                  onClick: () => navigator.clipboard.writeText(reveal.id)
-                }
+                toast.success('Revealed and completed token transfer request succesfully!', { 
+                  action: {
+                    label: 'Copy',
+                    onClick: () => navigator.clipboard.writeText(transaction.id)
+                  }
+                })
+              }).catch((message) => {
+                toast.error(`Oops! Something went wrong with your wallet: ${message}`)
               })
             }
           }}>

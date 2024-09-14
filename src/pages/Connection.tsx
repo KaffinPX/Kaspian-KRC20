@@ -19,7 +19,7 @@ function Connection () {
           <CardDescription>Connect to a Kaspian-compatible wallet to use DApp.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className='flex flex-col gap-10'>
+          <div className='flex flex-col gap-2'>
             {providers.length === 0 ? (
               <p className="text-center text-gray-500 py-3">
                 No wallets found.

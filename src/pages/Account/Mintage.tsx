@@ -16,13 +16,19 @@ function Mintage () {
   const { tokens, networkId } = useIndexer()
   const { invoke } = useKaspian()
 
-  const [ ticker, setTicker ] = useState('')
+  const [ ticker, setTicker ] = useState<string>()
   const [ script, setScript ] = useState<string>()
   const [ commitAddress, setCommitAddress ] = useState<string>()
   const [ commit, setCommit ] = useState<string>()
 
   useEffect(() => {
-    if (!ticker) return setCommitAddress(undefined)
+    if (commitAddress) setCommitAddress(undefined)
+
+    if (!ticker) return
+    if (tokens[ticker].state === 'finished') {
+      toast.error(`${ticker} token minting is no longer available as it has been completed.`)
+      return
+    }
 
     const script = new ScriptBuilder()
     const inscription = new Inscription('mint', {
@@ -34,6 +40,10 @@ function Mintage () {
     setScript(script.toString())
     setCommitAddress(addressFromScriptPublicKey(script.createPayToScriptHashScript(), networkId!)!.toString())
   }, [ address, ticker ])
+  
+  useEffect(() => {
+    setTicker(undefined)
+  }, [ networkId ])
 
   return (
     <Card className='w-[550px]'>
@@ -61,33 +71,40 @@ function Mintage () {
         </Select>
       </CardContent>
       <CardFooter>
-        <Button className={"gap-2"} disabled={!commitAddress || tokens[ticker].state === 'finished'} onClick={async () => {
+        <Button className={"gap-2"} disabled={!commitAddress} onClick={async () => {
           if (!commit) {
-            const commitment = JSON.parse(await invoke('transact', [[[ commitAddress!, '0.2' ]]]))
-            setCommit(commitment.id)
+            invoke('transact', [[[ commitAddress!, '0.2' ]]]).then(commitment => {
+              const transaction = JSON.parse(commitment)
+              setCommit(transaction.id)
 
-            toast.success('Committed token mint request succesfully!', {
-              action: {
-                label: 'Copy',
-                onClick: () => navigator.clipboard.writeText(commitment.id)
-              }
+              toast.success('Committed token mint request succesfully!', {
+                action: {
+                  label: 'Copy',
+                  onClick: () => navigator.clipboard.writeText(transaction.id)
+                }
+              })
+            }).catch((message) => {
+              toast.error(`Oops! Something went wrong with your wallet: ${message}`)
             })
           } else {
-            const reveal = JSON.parse(await invoke('transact', [[], "1", [{
+            invoke('transact', [[], "1", [{
               address: commitAddress!,
               outpoint: commit,
               index: 0,
               signer: address!,
               script: script
-            }]]))
+            }]]).then((reveal) => {
+              const transaction = JSON.parse(reveal)
+              setCommit(undefined)
 
-            setCommit(undefined)
-
-            toast.success('Revealed and completed token mint request succesfully!', { 
-              action: {
-                label: 'Copy',
-                onClick: () => navigator.clipboard.writeText(reveal.id)
-              }
+              toast.success('Revealed and completed token mint request succesfully!', { 
+                action: {
+                  label: 'Copy',
+                  onClick: () => navigator.clipboard.writeText(transaction.id)
+                }
+              })
+            }).catch((message) => {
+              toast.error(`Oops! Something went wrong with your wallet: ${message}`)
             })
           }
         }}>
