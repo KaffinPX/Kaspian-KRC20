@@ -20,7 +20,7 @@ export function IndexerProvider ({ children }: {
     const indexer = new Indexer('')
 
     if (networkId === 'mainnet') {
-      // indexer.url = 'https://api.kasplex.org'
+      indexer.url = 'https://api.kasplex.org'
     } else if (networkId === 'testnet-10') {
       indexer.url = 'https://tn10api.kasplex.org'
     }
