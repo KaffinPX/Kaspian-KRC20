@@ -19,19 +19,19 @@ export function AccountProvider ({ children }: {
   const [ balances, setBalances ] = useState<Balances>({})
 
   const refresh = useCallback(async () => {
-    if (!address || indexer.current.url === '') return // indexer url goes off-sync
+    if (!address || indexer.url === '') return setBalances({})
 
-    const balances = (await indexer.current.getKRC20Balances({ address })).result
+    const balances = (await indexer.getKRC20Balances({ address })).result
 
     setBalances(balances.reduce((acc: { [ticker: string]: Balance }, balance) => {
       acc[balance.tick] = balance
       return acc
     }, {}))
-  }, [ address ])
+  }, [ address, indexer ])
 
   useEffect(() => {
     refresh()
-  }, [ refresh, address, tokens ])
+  }, [ refresh, address ])
 
   return (
     <AccountContext.Provider value={{ 
