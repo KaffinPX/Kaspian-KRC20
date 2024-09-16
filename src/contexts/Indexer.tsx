@@ -29,6 +29,8 @@ export function IndexerProvider ({ children }: {
   }, [ networkId ])
 
   const refresh = useCallback(async () => {
+    if (indexer.url === '') return setTokens({})
+
     let tokens: Token[] = []
     let cursor = undefined
   
@@ -40,7 +42,7 @@ export function IndexerProvider ({ children }: {
       if (response.result.length < 50) break
       cursor = response.next
     }
-  
+
     setTokens(tokens.reduce((acc: {[ ticker: string ]: Token}, token) => {
       acc[token.tick] = token
       return acc
@@ -48,7 +50,6 @@ export function IndexerProvider ({ children }: {
   }, [ indexer ])
 
   useEffect(() => {
-    setTokens({})
     refresh()
   }, [ indexer, refresh ])
 
