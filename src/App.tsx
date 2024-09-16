@@ -44,7 +44,7 @@ function App() {
           </Button>
         </div>
         <div className='flex bg-card rounded-md gap-1 px-1'>
-          <Select value={address} onValueChange={(address) => {
+          <Select value={address} disabled={!account?.addresses} onValueChange={(address) => {
             setAddress(address)
           }}>
             <SelectTrigger className="w-[160px] border-0">

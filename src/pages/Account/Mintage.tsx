@@ -25,7 +25,7 @@ function Mintage () {
     if (commitAddress) setCommitAddress(undefined)
 
     if (!ticker) return
-    if (tokens[ticker].state === 'finished') {
+    if (tokens[ticker]?.state === 'finished') {
       toast.error(`${ticker} token minting is no longer available as it has been completed.`)
       return
     }
@@ -37,8 +37,12 @@ function Mintage () {
 
     inscription.write(script, XOnlyPublicKey.fromAddress(new Address(address!)).toString())
 
+    const scriptAddress = addressFromScriptPublicKey(script.createPayToScriptHashScript(), networkId!)!.toString()
+    const commitment = localStorage.getItem(scriptAddress)
+  
     setScript(script.toString())
-    setCommitAddress(addressFromScriptPublicKey(script.createPayToScriptHashScript(), networkId!)!.toString())
+    if (commitment) setCommit(commitment)
+    setCommitAddress(scriptAddress)
   }, [ address, ticker ])
   
   useEffect(() => {
@@ -55,7 +59,7 @@ function Mintage () {
       </CardHeader>
       <CardContent className="grid grid-cols-6 items-center">
         <Label htmlFor="ticker" className='font-bold'>Ticker:</Label>
-        <Select value={ticker} onValueChange={(ticker) => {
+        <Select value={ticker} disabled={Object.keys(tokens).length === 0 || !!commit} onValueChange={(ticker) => {
           setTicker(ticker)
         }}>
           <SelectTrigger className="col-span-5" id='ticker'>
@@ -75,7 +79,9 @@ function Mintage () {
           if (!commit) {
             invoke('transact', [[[ commitAddress!, '0.2' ]]]).then(commitment => {
               const transaction = JSON.parse(commitment)
+
               setCommit(transaction.id)
+              localStorage.setItem(commitAddress!, transaction.id)
 
               toast.success('Committed token mint request succesfully!', {
                 action: {
@@ -95,7 +101,9 @@ function Mintage () {
               script: script
             }]]).then((reveal) => {
               const transaction = JSON.parse(reveal)
+
               setCommit(undefined)
+              localStorage.removeItem(commitAddress!)
 
               toast.success('Revealed and completed token mint request succesfully!', { 
                 action: {

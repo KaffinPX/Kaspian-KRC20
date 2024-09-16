@@ -48,8 +48,7 @@ export function IndexerProvider ({ children }: {
   }, [ indexer ])
 
   useEffect(() => {
-    if (indexer.url === '') return setTokens({})
-
+    setTokens({})
     refresh()
   }, [ indexer, refresh ])
 
