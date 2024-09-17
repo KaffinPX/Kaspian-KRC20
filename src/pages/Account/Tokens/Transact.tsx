@@ -14,7 +14,7 @@ function Transfer ({ ticker }: {
   ticker: string
 }) {
   const { address, balances } = useAccount()
-  const { networkId } = useIndexer()
+  const { networkId, tokens } = useIndexer()
   const { invoke } = useKaspian()
 
   const [ recipient, setRecipient ] = useState<string>('')
@@ -32,16 +32,19 @@ function Transfer ({ ticker }: {
     const script = new ScriptBuilder()
     const inscription = new Inscription('transfer', {
       tick: ticker,
-      amt: BigInt(Number(amount) * 1e8).toString(),
+      amt: BigInt(Number(amount) * (1 ** parseInt(tokens[ticker].dec))).toString(),
       to: recipient.toString()
     })
 
     inscription.write(script, XOnlyPublicKey.fromAddress(new Address(address!)).toString())
 
+    const scriptAddress = addressFromScriptPublicKey(script.createPayToScriptHashScript(), networkId!)!.toString()
+    const commitment = localStorage.getItem(scriptAddress)
+  
     setScript(script.toString())
-    setCommitAddress(addressFromScriptPublicKey(script.createPayToScriptHashScript(), networkId!)!.toString())
+    if (commitment) setCommit(commitment)
+    setCommitAddress(scriptAddress)
   }, [ address, recipient, amount ])
-
   return (
     <Dialog>
       <DialogTrigger asChild>
