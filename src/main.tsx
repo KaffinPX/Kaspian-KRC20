@@ -10,7 +10,7 @@ import "./style.css"
 import * as kaspa from "@/../wasm"
 import wasmBinary from "../wasm/kaspa_bg.wasm?url"
 
-kaspa.default(wasmBinary)
+kaspa.default(wasmBinary) // reinitiate wasm (to be removed later)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider>
