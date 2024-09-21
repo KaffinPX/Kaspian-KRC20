@@ -32,7 +32,7 @@ function Transfer ({ ticker }: {
     const script = new ScriptBuilder()
     const inscription = new Inscription('transfer', {
       tick: ticker,
-      amt: BigInt(Number(amount) * (1 ** parseInt(tokens[ticker].dec))).toString(),
+      amt: BigInt(+amount * (10 ** +tokens[ticker].dec)).toString(),
       to: recipient.toString()
     })
 

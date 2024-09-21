@@ -14,7 +14,7 @@ export const AccountContext = createContext<{
 export function AccountProvider ({ children }: {
   children: ReactNode
 }) {
-  const { indexer, tokens } = useIndexer()
+  const { indexer } = useIndexer()
   const [ address, setAddress ] = useState<string>()
   const [ balances, setBalances ] = useState<Balances>({})
 
