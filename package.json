@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "preinstall": "bun run scripts/setup-wasm.js",
     "dev": "bunx --bun vite --host",
     "build": "bunx --bun vite build --minify false"
   },
