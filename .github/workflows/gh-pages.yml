@@ -34,17 +34,12 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: 1.1.22
-      - name: Install WASM binaries from aspectron.org
-        run: wget -O wasm.zip https://kaspa.aspectron.org/nightly/downloads/kaspa-wasm32-sdk-2024-09-13.zip
-      - name: Extract WASM binaries
-        run: |
-          7z x wasm.zip
-          mkdir ./wasm
-          mv ./kaspa-wasm32-sdk/web/kaspa/* ./wasm
       - name: Install Dependencies
         run: bun install
       - name: Build
         run: bun run build
+        env:
+          BASE_PATH: /Kaspian-KRC20/
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

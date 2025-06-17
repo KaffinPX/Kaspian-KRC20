@@ -1,0 +1,9 @@
+# .dockerignore
+node_modules
+.bun
+dist
+build
+.git
+.DS_Store
+Dockerfile
+README.md
